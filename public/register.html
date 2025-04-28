@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inscription - Smartphone Shop</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <link rel="stylesheet" href="/css/styles.css">
+    <script src="https://js.stripe.com/v3/"></script>
+     <!-- Firebase App (obligatoire) -->
+<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+
+<!-- Firebase Auth -->
+<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
+
+<!-- Firebase Firestore -->
+<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
+<!-- Configuration Firebase -->
+<script src="./js/firebase-config.js"></script>
+<!-- Services -->
+<script src="./js/auth-service.js"></script>
+<script src="./js/cart-service.js"></script>
+<script src="./js/order-service.js"></script>
+<script src="./js/notification-service.js"></script>
+
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="logo">
+                <i class="fas fa-mobile-alt"></i>
+                Smartphone Shop
+            </div>
+            <ul class="nav-menu">
+                <li class="nav-item"><a href="/index.html" class="nav-link"><i class="fas fa-home"></i> Accueil</a></li>
+                <li class="nav-item" id="login-link"><a href="/login.html" class="nav-link"><i class="fas fa-sign-in-alt"></i> Connexion</a></li>
+                <li class="nav-item" id="register-link"><a href="/register.html" class="nav-link"><i class="fas fa-user-plus"></i> Inscription</a></li>
+                <li class="nav-item" id="dashboard-link" style="display: none;"><a href="/dashboard.html" class="nav-link"><i class="fas fa-user"></i> Tableau de bord</a></li>
+                <li class="nav-item" id="logout-link" style="display: none;"><a href="#" class="nav-link" onclick="logout()"><i class="fas fa-sign-out-alt"></i> Déconnexion</a></li>
+            </ul>
+            <div class="hamburger">
+                <div class="line1"></div>
+                <div class="line2"></div>
+                <div class="line3"></div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Register Section -->
+    <section id="register">
+        <h2>Inscription</h2>
+        <div class="about-content">
+            <form id="register-form">
+                <div style="margin-bottom: 20px;">
+                    <label for="name">Nom complet</label>
+                    <input type="text" id="name" required>
+                </div>
+                <div style="margin-bottom: 20px;">
+                    <label for="email">Email</label>
+                    <input type="email" id="email" required>
+                </div>
+                <div style="margin-bottom: 20px;">
+                    <label for="password">Mot de passe</label>
+                    <input type="password" id="password" required>
+                </div>
+                <div style="margin-bottom: 20px;">
+                    <label for="address">Adresse</label>
+                    <textarea id="address" required></textarea>
+                </div>
+                <div style="margin-bottom: 20px;">
+                    <label for="phone">Téléphone</label>
+                    <input type="tel" id="phone" required>
+                </div>
+                <p style="color: #e74c3c; font-size: 0.9rem; margin-bottom: 20px;">
+                    <i class="fas fa-info-circle"></i> Les données sont stockées localement dans votre navigateur. Ne stockez pas d'informations sensibles.
+                </p>
+                <button type="submit" class="card-btn">S'inscrire</button>
+            </form>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-container">
+            <div class="footer-section">
+                <h3>Contact</h3>
+                <p><i class="fas fa-envelope"></i> contact@smartphoneshop.fr</p>
+                <p><i class="fas fa-phone"></i> 06 44 76 27 21</p>
+                <p><i class="fas fa-map-marker-alt"></i> 123 Rue Tech, 75000 Paris</p>
+            </div>
+            <div class="footer-section">
+                <h3>Horaires</h3>
+                <p>Lundi - Vendredi: 9h - 19h</p>
+                <p>Samedi: 10h - 18h</p>
+                <p>Dimanche: Fermé</p>
+            </div>
+        </div>
+        <div class="copyright">
+            © 2025 Smartphone Shop - Tous droits réservés
+        </div>
+    </footer>
+
+    <!-- <script src="/js/crypto-js.min.js"></script> -->
+    <script src="js/main.js"></script>
+</body>
+</html>

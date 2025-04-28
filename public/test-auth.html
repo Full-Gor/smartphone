@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Test Authentification</title>
+    <script src="https://js.stripe.com/v3/"></script>
+     <!-- Firebase App (obligatoire) -->
+<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+
+<!-- Firebase Auth -->
+<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
+
+<!-- Firebase Firestore -->
+<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
+<!-- Configuration Firebase -->
+<script src="./js/firebase-config.js"></script>
+<!-- Services -->
+<script src="./js/auth-service.js"></script>
+<script src="./js/cart-service.js"></script>
+<script src="./js/order-service.js"></script>
+<script src="./js/notification-service.js"></script>
+
+</head>
+<body>
+    <h1>Test d'authentification</h1>
+    
+    <form id="login-form">
+        <div>
+            <label for="email">Email</label>
+            <input type="email" id="email" required>
+        </div>
+        <div>
+            <label for="password">Mot de passe</label>
+            <input type="password" id="password" required>
+        </div>
+        <button type="submit">Se connecter</button>
+    </form>
+    
+    <div id="notification" style="display: none;"></div>
+    
+    <script>
+    // Code d'authentification intégré directement
+    document.addEventListener('DOMContentLoaded', function() {
+        const loginForm = document.getElementById('login-form');
+        
+        loginForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+            
+            // Test simple - accepte n'importe quel email/mot de passe
+            // Stockage de l'utilisateur connecté
+            localStorage.setItem('currentUser', JSON.stringify({
+                email: email,
+                name: "Utilisateur Test"
+            }));
+            
+            // Affichage d'un message
+            const notification = document.getElementById('notification');
+            notification.textContent = "Connexion réussie!";
+            notification.style.display = "block";
+            notification.style.backgroundColor = "#2ecc71";
+            notification.style.color = "white";
+            notification.style.padding = "10px";
+            notification.style.margin = "10px 0";
+            
+            // Redirection vers index.html après une pause
+            setTimeout(() => {
+                window.location.href = 'index.html';
+            }, 2000);
+        });
+    });
+    </script>
+</body>
+</html>

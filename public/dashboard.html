@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tableau de bord - Smartphone Shop</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <link rel="stylesheet" href="css/styles.css">
+    <script src="https://js.stripe.com/v3/"></script>
+     <!-- Firebase App (obligatoire) -->
+<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+
+<!-- Firebase Auth -->
+<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
+
+<!-- Firebase Firestore -->
+<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
+<!-- Configuration Firebase -->
+<script src="./js/firebase-config.js"></script>
+<!-- Services -->
+<script src="./js/auth-service.js"></script>
+<script src="./js/cart-service.js"></script>
+<script src="./js/order-service.js"></script>
+<script src="./js/notification-service.js"></script>
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="logo">
+                <i class="fas fa-mobile-alt"></i>
+                Smartphone Shop
+            </div>
+            <ul class="nav-menu">
+                <li class="nav-item"><a href="index.html" class="nav-link"><i class="fas fa-home"></i> Accueil</a></li>
+                <li class="nav-item" id="login-link"><a href="login.html" class="nav-link"><i class="fas fa-sign-in-alt"></i> Connexion</a></li>
+                <li class="nav-item" id="register-link"><a href="register.html" class="nav-link"><i class="fas fa-user-plus"></i> Inscription</a></li>
+                <li class="nav-item" id="dashboard-link"><a href="dashboard.html" class="nav-link active"><i class="fas fa-user"></i> Tableau de bord</a></li>
+                <li class="nav-item" id="logout-link"><a href="#" class="nav-link" onclick="logout()"><i class="fas fa-sign-out-alt"></i> Déconnexion</a></li>
+            </ul>
+            <div class="cart-icon">
+                <i class="fas fa-shopping-cart"></i>
+                <span class="cart-count" id="cart-count">0</span>
+            </div>
+            <div class="hamburger">
+                <div class="line1"></div>
+                <div class="line2"></div>
+                <div class="line3"></div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Dashboard Section -->
+    <section id="dashboard">
+        <h2>Tableau de bord</h2>
+        <div class="about-content">
+            <!-- Informations utilisateur -->
+            <div id="user-info">
+                <p>Chargement des informations...</p>
+            </div>
+            
+            <!-- Historique des commandes -->
+            <div id="order-history" style="margin-top: 30px;">
+                <h3>Historique des commandes</h3>
+                <p>Chargement de l'historique...</p>
+            </div>
+            
+            <!-- Paramètres du compte -->
+            <div style="margin-top: 30px;">
+                <h3>Paramètres du compte</h3>
+                <button class="card-btn" style="max-width: 300px; margin-top: 10px;">Modifier mon profil</button>
+                <button class="card-btn" style="max-width: 300px; margin-top: 10px; background-color: #e74c3c;" onclick="logout()">Se déconnecter</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Cart Modal -->
+    <div class="modal" id="cartModal">
+        <div class="modal-content">
+            <span class="modal-close" onclick="closeCartModal()">×</span>
+            <h2>Votre Panier</h2>
+            <div id="cartContent"></div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-container">
+            <div class="footer-section">
+                <h3>Contact</h3>
+                <p><i class="fas fa-envelope"></i> contact@smartphoneshop.fr</p>
+                <p><i class="fas fa-phone"></i> 06 44 76 27 21</p>
+                <p><i class="fas fa-map-marker-alt"></i> 123 Rue Tech, 75000 Paris</p>
+            </div>
+            <div class="footer-section">
+                <h3>Horaires</h3>
+                <p>Lundi - Vendredi: 9h - 19h</p>
+                <p>Samedi: 10h - 18h</p>
+                <p>Dimanche: Fermé</p>
+            </div>
+            <div class="footer-section">
+                <h3>Informations</h3>
+                <p><a href="#" style="color: #ddd; text-decoration: none;">Mentions légales</a></p>
+                <p><a href="#" style="color: #ddd; text-decoration: none;">Politique de confidentialité</a></p>
+                <p><a href="#" style="color: #ddd; text-decoration: none;">CGV</a></p>
+            </div>
+        </div>
+        <div class="copyright">
+            © 2025 Smartphone Shop - Tous droits réservés
+        </div>
+    </footer>
+
+    <!-- Notification -->
+    <div class="notification" id="notification">
+        Notification
+    </div>
+
+    <!-- Scroll to Top Button -->
+    <div class="scroll-top" onclick="scrollToTop()">
+        <i class="fas fa-arrow-up"></i>
+    </div>
+
+    <script src="js/main.js"></script>
+</body>
+</html>

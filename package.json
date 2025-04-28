@@ -1,0 +1,10 @@
+{
+    "name": "smartphone-shop",
+    "version": "1.0.0",
+    "dependencies": {
+        "stripe": "^16.2.0"
+    },
+    "scripts": {
+        "build": "echo 'Build statique terminé'"
+    }
+}

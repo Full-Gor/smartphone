@@ -1,0 +1,521 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-title" content="Smartphone Shop">
+    <title>Smartphone Shop</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <link rel="stylesheet" href="/css/styles.css">
+    <link rel="manifest" href="/manifest.json">
+    <meta name="theme-color" content="#bf9b30">
+    <link rel="apple-touch-icon" href="/assets/icon-192.png">
+    <script src="https://js.stripe.com/v3/"></script>
+     <!-- Firebase App (obligatoire) -->
+<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+
+<!-- Firebase Auth -->
+<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
+
+<!-- Firebase Firestore -->
+<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
+<!-- Configuration Firebase -->
+<script src="./js/firebase-config.js"></script>
+<!-- Services -->
+<script src="./js/auth-service.js"></script>
+<script src="./js/cart-service.js"></script>
+<script src="./js/order-service.js"></script>
+<script src="./js/notification-service.js"></script>
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="logo">
+                <i class="fas fa-mobile-alt"></i>
+                Smartphone Shop
+            </div>
+            <ul class="nav-menu">
+                <li class="nav-item"><a href="/index.html" class="nav-link active"><i class="fas fa-home"></i> Accueil</a></li>
+                <li class="nav-item" id="login-link"><a href="/login.html" class="nav-link"><i class="fas fa-sign-in-alt"></i> Connexion</a></li>
+                <li class="nav-item" id="register-link"><a href="/register.html" class="nav-link"><i class="fas fa-user-plus"></i> Inscription</a></li>
+                <li class="nav-item" id="dashboard-link" style="display: none;"><a href="/dashboard.html" class="nav-link"><i class="fas fa-user"></i> Tableau de bord</a></li>
+                <li class="nav-item" id="logout-link" style="display: none;"><a href="#" class="nav-link" onclick="logout()"><i class="fas fa-sign-out-alt"></i> Déconnexion</a></li>
+            </ul>
+            <div class="cart-icon">
+                <i class="fas fa-shopping-cart"></i>
+                <span class="cart-count" id="cart-count">0</span>
+            </div>
+            <div class="hamburger">
+                <div class="line1"></div>
+                <div class="line2"></div>
+                <div class="line3"></div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Smartphones Neufs Section -->
+    <section id="neuf">
+        <h2>Smartphones Neufs</h2>
+        <div class="products-grid">
+            <!-- Smartphone 1 -->
+            <div class="product-card">
+                <div class="card-inner">
+                    <div class="card-front">
+                        <img src="https://images.unsplash.com/photo-1589492477829-5e65395b66cc?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60" alt="XPhone Pro" class="card-img">
+                        <div class="card-content">
+                            <h3 class="card-title">XPhone Pro</h3>
+                            <p>Le smartphone haut de gamme avec un appareil photo exceptionnel</p>
+                            <p class="card-price">799 €</p>
+                        </div>
+                        <button class="card-flip-btn" onclick="flipCard(this)">
+                            <i class="fas fa-sync-alt"></i>
+                        </button>
+                    </div>
+                    <div class="card-back">
+                        <h3>XPhone Pro -- Fiche Technique</h3>
+                        <ul class="specs-list">
+                            <li>Stockage: 128Go</li>
+                            <li>RAM: 8Go.</li>
+                            <li>Processeur: Octa-core 3.2GHz.</li>
+                            <li>Écran: AMOLED 6.7".</li>
+                            <li>Caméra: 108MP + 12MP.</li>
+                            <li>Batterie: 4500mAh.</li>
+                            <li>5G Compatible.</li>
+                        </ul>
+                        <div>
+                            <button class="card-btn" onclick="addToCart('XPhone Pro', 799)">Ajouter au panier</button>
+                            <button class="card-btn" style="background-color: #3498db; margin-top: 5px;" onclick="flipCard(this)">
+                                <i class="fas fa-sync-alt"></i> Voir le produit
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Smartphone 2 -->
+            <div class="product-card">
+                <div class="card-inner">
+                    <div class="card-front">
+                        <img src="https://images.unsplash.com/photo-1592286927505-1def25115558?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60" alt="YPhone Ultra" class="card-img">
+                        <div class="card-content">
+                            <h3 class="card-title">YPhone Ultra</h3>
+                            <p>Performance et élégance en un seul appareil</p>
+                            <p class="card-price">999 €</p>
+                        </div>
+                        <button class="card-flip-btn" onclick="flipCard(this)">
+                            <i class="fas fa-sync-alt"></i>
+                        </button>
+                    </div>
+                    <div class="card-back">
+                        <h3>YPhone Ultra - Fiche Technique</h3>
+                        <ul class="specs-list">
+                            <li>Stockage: 256Go</li>
+                            <li>RAM: 12Go</li>
+                            <li>Processeur: Octa-core 3.5GHz</li>
+                            <li>Écran: OLED 6.9"</li>
+                            <li>Caméra: 200MP + 16MP</li>
+                            <li>Batterie: 5000mAh</li>
+                            <li>Mode Pro Photo</li>
+                        </ul>
+                        <div>
+                            <button class="card-btn" onclick="addToCart('YPhone Ultra', 999)">Ajouter au panier</button>
+                            <button class="card-btn" style="background-color: #3498db; margin-top: 5px;" onclick="flipCard(this)">
+                                <i class="fas fa-sync-alt"></i> Voir l'article
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Smartphone 3 -->
+            <div class="product-card">
+                <div class="card-inner">
+                    <div class="card-front">
+                        <img src="https://images.unsplash.com/photo-1574944985070-8f3ebc6b79d2?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60" alt="ZPhone Max" class="card-img">
+                        <div class="card-content">
+                            <h3 class="card-title">ZPhone Max</h3>
+                            <p>Le meilleur rapport qualité/prix du marché</p>
+                            <p class="card-price">649 €</p>
+                        </div>
+                        <button class="card-flip-btn" onclick="flipCard(this)">
+                            <i class="fas fa-sync-alt"></i>
+                        </button>
+                    </div>
+                    <div class="card-back">
+                        <h3>ZPhone Max - Fiche Technique</h3>
+                        <ul class="specs-list">
+                            <li>Stockage: 128Go</li>
+                            <li>RAM: 6Go</li>
+                            <li>Processeur: Octa-core 3.0GHz</li>
+                            <li>Écran: AMOLED 6.5"</li>
+                            <li>Caméra: 64MP + 8MP</li>
+                            <li>Batterie: 4200mAh</li>
+                            <li>Charge rapide 30W</li>
+                        </ul>
+                        <div>
+                            <button class="card-btn" onclick="addToCart('ZPhone Max', 649)">Ajouter au panier</button>
+                            <button class="card-btn" style="background-color: #3498db; margin-top: 5px;" onclick="flipCard(this)">
+                                <i class="fas fa-sync-alt"></i> Voir l'article'
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Smartphones Occasion Section -->
+    <section id="occasion">
+        <h2>Smartphones Reconditionnés</h2>
+        <div class="products-grid">
+            <!-- Smartphone Occasion 1 -->
+            <div class="product-card">
+                <div class="card-inner">
+                    <div class="card-front">
+                        <img src="https://images.unsplash.com/photo-1591447343127-c4a316aff961?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60" alt="XPhone 11" class="card-img">
+                        <div class="card-content">
+                            <h3 class="card-title">zPhone 12</h3>
+                            <p>Reconditionné Grade A, comme neuf</p>
+                            <p class="card-price">399 €</p>
+                        </div>
+                        <button class="card-flip-btn" onclick="flipCard(this)">
+                            <i class="fas fa-sync-alt"></i>
+                        </button>
+                    </div>
+                    <div class="card-back">
+                        <h3>XPhone 11 - Fiche Technique</h3>
+                        <ul class="specs-list">
+                            <li>Stockage: 64Go</li>
+                            <li>RAM: 6Go</li>
+                            <li>Processeur: Hexa-core 2.8GHz</li>
+                            <li>Écran: LCD 6.1"</li>
+                            <li>Caméra: 48MP + 8MP</li>
+                            <li>Batterie: 4000mAh</li>
+                            <li>État: Reconditionné Grade A</li>
+                            <li>Garantie: 12 mois</li>
+                        </ul>
+                        <div>
+                            <button class="card-btn" onclick="addToCart('XPhone 11 Reconditionné', 399)">Ajouter au panier</button>
+                            <button class="card-btn" style="background-color: #3498db; margin-top: 5px;" onclick="flipCard(this)">
+                                <i class="fas fa-sync-alt"></i> Voir le produit
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Smartphone Occasion 2 -->
+            <div class="product-card">
+                <div class="card-inner">
+                    <div class="card-front">
+                        <img src="https://images.unsplash.com/photo-1565849904461-04a58ad377e0?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60" alt="YPhone 10" class="card-img">
+                        <div class="card-content">
+                            <h3 class="card-title">YPhone 10</h3>
+                            <p>Reconditionné Grade B, excellent état</p>
+                            <p class="card-price">299 €</p>
+                        </div>
+                        <button class="card-flip-btn" onclick="flipCard(this)">
+                            <i class="fas fa-sync-alt"></i>
+                        </button>
+                    </div>
+                    <div class="card-back">
+                        <!-- <h3>YPhone 10 - Fiche Technique</h3> -->
+                        <ul class="specs-list">
+                            <li>Stockage: 32Go</li>
+                            <li>RAM: 4Go</li>
+                            <li>Processeur: Quad-core 2.5GHz</li>
+                            <li>Écran: LCD 5.8"</li>
+                            <li>Caméra: 12MP + 5MP</li>
+                            <li>Batterie: 3500mAh</li>
+                            <li>État: Reconditionné Grade B</li>
+                            <li>Garantie: 6 mois</li>
+                        </ul>
+                        <div>
+                            <button class="card-btn" onclick="addToCart('YPhone 10 Reconditionné', 299)">Ajouter au panier</button>
+                            <button class="card-btn" style="background-color: #3498db; margin-top: 5px;" onclick="flipCard(this)">
+                                <i class="fas fa-sync-alt"></i> Voir le produit
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Réparation Section -->
+    <section id="reparation">
+        <h2>Services de Réparation</h2>
+        <div class="products-grid">
+            <!-- Réparation Écran -->
+            <div class="product-card">
+                <div class="card-inner">
+                    <div class="card-front">
+                        <img src="https://images.unsplash.com/photo-1580910051074-3eb694886505?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60" alt="Réparation Écran" class="card-img">
+                        <div class="card-content">
+                            <h3 class="card-title">Réparation Écran</h3>
+                            <p>Remplacement d'écran pour tous modèles</p>
+                            <p class="card-price">À partir de 89 €</p>
+                        </div>
+                        <button class="card-flip-btn" onclick="flipCard(this)">
+                            <i class="fas fa-sync-alt"></i>
+                        </button>
+                    </div>
+                    <div class="card-back">
+                        <h3>Réparation Écran - Détails</h3>
+                        <ul class="specs-list">
+                            <li>Pièces d'origine ou compatibles</li>
+                            <li>Réparation en 1h sur rendez-vous</li>
+                            <li>Garantie de 6 mois</li>
+                            <li>Diagnostic gratuit</li>
+                            <li>Devis gratuit et sans engagement</li>
+                            <li>Compatible avec tous les modèles</li>
+                        </ul>
+                        <div>
+                            <button class="card-btn" onclick="addToCart('Réparation Écran', 89)">Réserver</button>
+                            <button class="card-btn" style="background-color: #3498db; margin-top: 5px;" onclick="flipCard(this)">
+                                <i class="fas fa-sync-alt"></i> Voir le service
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Réparation Batterie -->
+            <div class="product-card">
+                <div class="card-inner">
+                    <div class="card-front">
+                        <img src="https://images.unsplash.com/photo-1585399171951-2fee6817f897?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60" alt="Remplacement Batterie" class="card-img">
+                        <div class="card-content">
+                            <h3 class="card-title">Remplacement Batterie</h3>
+                            <p>Donnez une nouvelle vie à votre smartphone</p>
+                            <p class="card-price">À partir de 49 €</p>
+                        </div>
+                        <button class="card-flip-btn" onclick="flipCard(this)">
+                            <i class="fas fa-sync-alt"></i>
+                        </button>
+                    </div>
+                    <div class="card-back">
+                        <h3>Remplacement Batterie - Détails</h3>
+                        <ul class="specs-list">
+                            <li>Batteries neuves et certifiées</li>
+                            <li>Remplacement en 30 min</li>
+                            <li>Garantie de 12 mois</li>
+                            <li>Test complet après remplacement</li>
+                            <li>Compatible avec tous les modèles</li>
+                            <li>Recyclage de l'ancienne batterie</li>
+                        </ul>
+                        <div>
+                            <button class="card-btn" onclick="addToCart('Remplacement Batterie', 49)">Réserver</button>
+                            <button class="card-btn" style="background-color: #3498db; margin-top: 5px;" onclick="flipCard(this)">
+                                <i class="fas fa-sync-alt"></i> Voir le service
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Diagnostic Complet -->
+            <div class="product-card">
+                <div class="card-inner">
+                    <div class="card-front">
+                        <img src="https://images.unsplash.com/photo-1563338955-2f1149de6a03?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60" alt="Diagnostic Complet" class="card-img">
+                        <div class="card-content">
+                            <h3 class="card-title">Diagnostic Complet</h3>
+                            <p>Analyse complète de votre appareil</p>
+                            <p class="card-price">29 €</p>
+                        </div>
+                        <button class="card-flip-btn" onclick="flipCard(this)">
+                            <i class="fas fa-sync-alt"></i>
+                        </button>
+                    </div>
+                    <div class="card-back">
+                        <h3>Diagnostic Complet - Détails</h3>
+                        <ul class="specs-list">
+                            <li>Vérification matérielle complète</li>
+                            <li>Test des fonctions et capteurs</li>
+                            <li>Analyse de la batterie</li>
+                            <li>Vérification des performances</li>
+                            <li>Rapport détaillé</li>
+                            <li>Déduit du prix de la réparation</li>
+                        </ul>
+                        <div>
+                            <button class="card-btn" onclick="addToCart('Diagnostic Complet', 29)">Réserver</button>
+                            <button class="card-btn" style="background-color: #3498db; margin-top: 5px;" onclick="flipCard(this)">
+                                <i class="fas fa-sync-alt"></i> Voir le service
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about">
+        <h2>À Propos de Nous</h2>
+        <div class="about-content">
+            <p>Bienvenue chez <strong>Smartphone Shop</strong>, votre spécialiste en téléphonie mobile depuis 2010. Notre entreprise est née d'une passion pour la technologie et d'un désir de rendre les dernières innovations accessibles à tous.</p>
+            <p>Nous proposons une large gamme de smartphones neufs des plus grandes marques, mais aussi des appareils reconditionnés de qualité, testés et garantis. Nos techniciens certifiés offrent également des services de réparation professionnels pour prolonger la durée de vie de votre appareil.</p>
+            <p>Notre mission est simple : vous offrir les meilleurs produits et services au meilleur prix, avec un conseil personnalisé et un service après-vente irréprochable. Nous croyons en une approche durable de la technologie, c'est pourquoi nous encourageons la réparation et le reconditionnement.</p>
+            <p>Que vous soyez à la recherche du dernier modèle haut de gamme, d'un smartphone reconditionné économique ou d'une réparation fiable, notre équipe est là pour vous accompagner et vous conseiller selon vos besoins.</p>
+        </div>
+    </section>
+
+    <!-- Terms Section -->
+    <section id="terms">
+        <h2>Conditions de Vente</h2>
+        <div class="terms-content">
+            <p><strong>Garantie :</strong> Tous nos smartphones neufs bénéficient d'une garantie de 24 mois. Les appareils reconditionnés sont garantis 12 mois. Les réparations sont garanties 6 mois sur les pièces remplacées.</p>
+            <p><strong>Livraison :</strong> Les commandes sont préparées sous 24h et expédiées par transporteur. La livraison est offerte pour toute commande supérieure à 100€. Pour les réparations, nous proposons un service de retrait en boutique ou d'expédition sécurisée.</p>
+            <p><strong>Retours :</strong> Vous disposez d'un délai de rétractation de 14 jours pour retourner un produit neuf non ouvert. Pour les produits reconditionnés, nous proposons un "essai sans risque" de 7 jours.</p>
+            <p><strong>Paiement :</strong> Nous acceptons les paiements par carte bancaire, PayPal, et proposons des solutions de financement pour les achats importants. Le paiement en 3 ou 4 fois sans frais est disponible pour toute commande supérieure à 200€.</p>
+            <p><strong>Données personnelles :</strong> Nous nous engageons à protéger vos données personnelles conformément au RGPD. Consultez notre politique de confidentialité pour plus d'informations.</p>
+        </div>
+    </section>
+
+    <!-- Cart Modal -->
+    <div class="modal" id="cartModal">
+        <div class="modal-content">
+            <span class="modal-close" onclick="closeCartModal()">×</span>
+            <h2>Votre Panier</h2>
+            <div id="cartContent"></div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-container">
+            <div class="footer-section">
+                <h3>Contact</h3>
+                <p><i class="fas fa-envelope"></i> contact@smartphoneshop.fr</p>
+                <p><i class="fas fa-phone"></i> 06 44 76 27 21</p>
+                <p><i class="fas fa-map-marker-alt"></i> 123 Rue Tech, 75000 Paris</p>
+                <div class="social-links">
+                    <a href="#"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#"><i class="fab fa-twitter"></i></a>
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                    <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                </div>
+            </div>
+            <div class="footer-section">
+                <h3>Horaires</h3>
+                <p>Lundi - Vendredi: 9h - 19h</p>
+                <p>Samedi: 10h - 18h</p>
+                <p>Dimanche: Fermé</p>
+            </div>
+            <div class="footer-section">
+                <h3>Informations</h3>
+                <p><a href="#" style="color: #ddd; text-decoration: none;">Mentions légales</a></p>
+                <p><a href="#" style="color: #ddd; text-decoration: none;">Politique de confidentialité</a></p>
+                <p><a href="#" style="color: #ddd; text-decoration: none;">Conditions Générales de Vente</a></p>
+                <p><a href="#" style="color: #ddd; text-decoration: none;">Plan du site</a></p>
+            </div>
+            <div class="footer-section">
+                <h3>Newsletter</h3>
+                <p>Inscrivez-vous pour recevoir nos offres exclusives.</p>
+                <div style="display: flex; margin-top: 10px;">
+                    <input type="email" placeholder="Votre email" style="padding: 10px; border: none; border-radius: 3px 0 0 3px; width: 70%;">
+                    <button style="background: #3498db; color: white; border: none; padding: 10px; border-radius: 0 3px 3px 0; cursor: pointer;">OK</button>
+                </div>
+            </div>
+        </div>
+        <div class="copyright">
+            © 2025 Smartphone Shop--Tous droits réservés
+        </div>
+    </footer>
+
+    <!-- Notification -->
+    <div class="notification" id="notification">
+        Produit ajouté au panier.
+    </div>
+
+    <!-- Scroll to Top Button -->
+    <div class="scroll-top" onclick="scrollToTop()">
+        <i class="fas fa-arrow-up"></i>
+    </div>
+
+    <!-- <script src="/js/crypto-js.min.js"></script> -->
+    <script src="js/main.js"></script>
+    <script>
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('/sw.js');
+            });
+        }
+
+        // Mobile navigation menu
+        const hamburger = document.querySelector('.hamburger');
+        const navMenu = document.querySelector('.nav-menu');
+
+        hamburger?.addEventListener('click', () => {
+            hamburger.classList.toggle('active');
+            navMenu.classList.toggle('active');
+        });
+
+        document.querySelectorAll('.nav-link').forEach(link => {
+            link.addEventListener('click', () => {
+                hamburger.classList.remove('active');
+                navMenu.classList.remove('active');
+            });
+        });
+
+        // Scroll to section functionality
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                const targetId = this.getAttribute('href');
+                const targetSection = document.querySelector(targetId);
+                if (targetSection) {
+                    window.scrollTo({
+                        top: targetSection.offsetTop - 80,
+                        behavior: 'smooth'
+                    });
+                    document.querySelectorAll('.nav-link').forEach(link => link.classList.remove('active'));
+                    this.classList.add('active');
+                }
+            });
+        });
+
+        // Scroll to top functionality
+        const scrollTopBtn = document.querySelector('.scroll-top');
+        window.addEventListener('scroll', () => {
+            if (window.pageYOffset > 300) {
+                scrollTopBtn.classList.add('visible');
+            } else {
+                scrollTopBtn.classList.remove('visible');
+            }
+            const sections = document.querySelectorAll('section');
+            const navLinks = document.querySelectorAll('.nav-link');
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop - 100;
+                const sectionHeight = section.offsetHeight;
+                const sectionId = section.getAttribute('id');
+                if (window.pageYOffset >= sectionTop && window.pageYOffset < sectionTop + sectionHeight) {
+                    navLinks.forEach(link => {
+                        link.classList.remove('active');
+                        if (link.getAttribute('href') === `#${sectionId}`) {
+                            link.classList.add('active');
+                        }
+                    });
+                }
+            });
+        });
+
+        function scrollToTop() {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        }
+
+        // Update navigation links based on login status
+        function updateNavLinks() {
+            const isLoggedIn = localStorage.getItem('currentUser');
+            document.getElementById('login-link').style.display = isLoggedIn ? 'none' : 'block';
+            document.getElementById('register-link').style.display = isLoggedIn ? 'none' : 'block';
+            document.getElementById('dashboard-link').style.display = isLoggedIn ? 'block' : 'none';
+            document.getElementById('logout-link').style.display = isLoggedIn ? 'block' : 'none';
+        }
+
+        // Initialisation
+        updateNavLinks();
+    </script>
+</body>
+</html>
